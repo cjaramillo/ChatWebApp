@@ -17,14 +17,14 @@ namespace StockBotWorkerService
     {
         private readonly ILogger<Worker> _logger;
         private readonly IConfiguration _configuration;
-        private Invoker _invoker;
+        private ApiCaller _invoker;
         private Parser _parser;
 
         public Worker(ILogger<Worker> logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
-            _invoker = new Invoker(configuration); 
+            _invoker = new ApiCaller(configuration); 
             _parser = new Parser(configuration);
         }
 
@@ -62,7 +62,7 @@ namespace StockBotWorkerService
                         }
                         else 
                         {
-                            string apiResponse = _invoker.InvokeApi(commandSplitted[1]);
+                            string apiResponse = _invoker.Call(commandSplitted[1]);
                             var parsedResponse = _parser.ParseContent(apiResponse);
                             if (parsedResponse.ContainsKey("Symbol") && parsedResponse.ContainsKey("Close"))
                             {

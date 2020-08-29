@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace StockBotWorkerService
 {
-    public class Invoker
+    public class ApiCaller
     {
         private readonly IConfiguration _configuration;
         static readonly HttpClient _client = new HttpClient();
-        public Invoker(IConfiguration configuration)
+        public ApiCaller(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public string InvokeApi(string stockCode)
+        public string Call(string stockCode)
         {
             string content = string.Empty;
             try
