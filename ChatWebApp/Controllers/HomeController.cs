@@ -80,10 +80,10 @@ namespace ChatWebApp.Controllers
         public void callQueue(Message message)
         {
             var response = _rpcClient.Call(message.Text);
-            Message m1 = new Message();
-            m1.UserName = "StockBot";
-            m1.Text = response;
-            _hubContext.Clients.All.SendAsync("receiveMessage", m1);
+            Message messageStockBot = new Message();
+            messageStockBot.UserName = "StockBot";
+            messageStockBot.Text = response;
+            _hubContext.Clients.All.SendAsync("receiveMessage", messageStockBot);
         }
 
 
