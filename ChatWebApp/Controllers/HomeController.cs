@@ -59,11 +59,8 @@ namespace ChatWebApp.Controllers
                 await _context.Messages.AddAsync(message);
                 if (message.Text.StartsWith("/stock="))
                 {
-                    //var response = _rpcClient.Call(message.Text);
-                    Message m1 = new Message();
-                    m1.UserName = "StockBot";
-                    m1.Text = "Internal Spartaaa";
-                    await _hubContext.Clients.All.SendAsync("receiveMessage", m1);
+                    // Fire and forget call to not block
+                    _ = Task.Run(() => callQueue(message));
                 }
                 else
                 {
@@ -80,7 +77,14 @@ namespace ChatWebApp.Controllers
         }
 
 
-
+        public void callQueue(Message message)
+        {
+            var response = _rpcClient.Call(message.Text);
+            Message m1 = new Message();
+            m1.UserName = "StockBot";
+            m1.Text = response;
+            _hubContext.Clients.All.SendAsync("receiveMessage", m1);
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

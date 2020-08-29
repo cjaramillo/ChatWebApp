@@ -12,7 +12,6 @@ namespace ChatWebApp.Models
         {
             Messages = new HashSet<Message>();
         }
-        // 1 - * AppUSer || Message
         public virtual ICollection<Message> Messages { get; set; }
     }
 }
