@@ -21,12 +21,32 @@ namespace NUnitTestProject
         [Test]
         public void RpcCallOnline()
         {
+            // Be sure is runnning StockBotWorkerService
+            // Otherwise, the response would never retreive
             RpcClient rpcClient = new RpcClient(_configuration);
             string response = rpcClient.Call("/stock=aapl.us");
             Assert.IsTrue(response.ToUpper().Contains("AAPL.US"));
         }
 
+        [Test]
+        public void RpcCallWithoutStockCode()
+        {
+            // Be sure is runnning StockBotWorkerService
+            // Otherwise, the response would never retreive
+            RpcClient rpcClient = new RpcClient(_configuration);
+            string response = rpcClient.Call("/stock=");
+            Assert.IsTrue(response.ToUpper().Contains("STOCK CODE IS REQUIRED"));
+        }
 
+        [Test]
+        public void RpcCallInvalidCommand()
+        {
+            // Be sure is runnning StockBotWorkerService
+            // Otherwise, the response would never retreive
+            RpcClient rpcClient = new RpcClient(_configuration);
+            string response = rpcClient.Call("/inval=");
+            Assert.IsTrue(response.ToUpper().Contains("COMMAND NOT RECOGNIZED"));
+        }
 
         public IConfigurationRoot BuildConfiguration(string testDirectory)
         {
