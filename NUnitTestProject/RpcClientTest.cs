@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using NUnit.Framework;
 using RPCComunicator;
+using StockBotWorkerService;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,28 +14,29 @@ namespace NUnitTestProject
     {
         private IConfiguration _configuration;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             _configuration = BuildConfiguration(TestContext.CurrentContext.TestDirectory);
-
+            Host.CreateDefaultBuilder()
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<Worker>();
+                }).Build().RunAsync();
         }
 
         [Test]
         public void RpcCallOnline()
         {
-            // Be sure is runnning StockBotWorkerService
-            // Otherwise, the response would never retreive
             RpcClient rpcClient = new RpcClient(_configuration);
             string response = rpcClient.Call("/stock=aapl.us");
             Assert.IsTrue(response.ToUpper().Contains("AAPL.US"));
+            Assert.IsTrue(response.ToUpper().EndsWith("PER SHARE"));
         }
 
         [Test]
         public void RpcCallWithoutStockCode()
         {
-            // Be sure is runnning StockBotWorkerService
-            // Otherwise, the response would never retreive
             RpcClient rpcClient = new RpcClient(_configuration);
             string response = rpcClient.Call("/stock=");
             Assert.IsTrue(response.ToUpper().Contains("STOCK CODE IS REQUIRED"));
@@ -41,8 +45,6 @@ namespace NUnitTestProject
         [Test]
         public void RpcCallInvalidCommand()
         {
-            // Be sure is runnning StockBotWorkerService
-            // Otherwise, the response would never retreive
             RpcClient rpcClient = new RpcClient(_configuration);
             string response = rpcClient.Call("/inval=");
             Assert.IsTrue(response.ToUpper().Contains("COMMAND NOT RECOGNIZED"));
