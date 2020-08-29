@@ -13,11 +13,14 @@ namespace NUnitTestProject
     public class RpcClientTest
     {
         private IConfiguration _configuration;
+        private RpcClient _rpcClient;
 
         [OneTimeSetUp]
         public void Setup()
         {
             _configuration = BuildConfiguration(TestContext.CurrentContext.TestDirectory);
+            _rpcClient = new RpcClient(_configuration);
+
             Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -28,8 +31,7 @@ namespace NUnitTestProject
         [Test]
         public void RpcCallOnline()
         {
-            RpcClient rpcClient = new RpcClient(_configuration);
-            string response = rpcClient.Call("/stock=aapl.us");
+            string response = _rpcClient.Call("/stock=aapl.us");
             Assert.IsTrue(response.ToUpper().Contains("AAPL.US"));
             Assert.IsTrue(response.ToUpper().EndsWith("PER SHARE"));
         }
@@ -37,16 +39,14 @@ namespace NUnitTestProject
         [Test]
         public void RpcCallWithoutStockCode()
         {
-            RpcClient rpcClient = new RpcClient(_configuration);
-            string response = rpcClient.Call("/stock=");
+            string response = _rpcClient.Call("/stock=");
             Assert.IsTrue(response.ToUpper().Contains("STOCK CODE IS REQUIRED"));
         }
 
         [Test]
         public void RpcCallInvalidCommand()
         {
-            RpcClient rpcClient = new RpcClient(_configuration);
-            string response = rpcClient.Call("/inval=");
+            string response = _rpcClient.Call("/inval=");
             Assert.IsTrue(response.ToUpper().Contains("COMMAND NOT RECOGNIZED"));
         }
 
