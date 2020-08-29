@@ -14,17 +14,20 @@ namespace StockBotWorkerService
         }
 
         /// <summary>
-        /// Parse the response API
+        /// Parse the response API into dictionary
         /// </summary>
         /// <param name="message">Message input</param>
         public Dictionary<string, string> ParseContent(string message) 
         {
+            message = message.Trim();
             Dictionary<string, string> myDict = new Dictionary<string, string>();
             if (string.IsNullOrEmpty(message))
                 return myDict;
             string[] lines = message.Split("\n");
             if (lines.Length < 2)
                 return myDict;
+            lines[0] = lines[0].Trim();
+            lines[1] = lines[1].Trim();
             string[] fields = lines[0].Split(",");
             string[] values = lines[1].Split(",");
             if (fields.Length != values.Length)
