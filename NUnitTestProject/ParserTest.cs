@@ -7,17 +7,8 @@ using System.Text;
 
 namespace NUnitTestProject
 {
-    public class ParserTest
+    public class ParserTest : UnitTestConfig
     {
-        private IConfiguration _configuration;
-
-        [SetUp]
-        public void Setup()
-        {
-            _configuration = BuildConfiguration(TestContext.CurrentContext.TestDirectory);
-            
-        }
-
         [Test]
         public void ParseWithOkContent()
         {
@@ -39,14 +30,6 @@ namespace NUnitTestProject
             Parser parser = new Parser(_configuration);
             Dictionary<string, string> parsedDict = parser.ParseContent(string.Empty);
             Assert.AreEqual(parsedDict.Count, 0);
-        }
-
-        public IConfigurationRoot BuildConfiguration(string testDirectory)
-        {
-            return new ConfigurationBuilder()
-                .SetBasePath(testDirectory)
-                .AddJsonFile("appsettings.json", optional: true)
-                .Build();
         }
     }
 }

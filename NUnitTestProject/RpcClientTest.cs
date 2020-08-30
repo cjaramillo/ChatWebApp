@@ -10,7 +10,7 @@ using System.Text;
 
 namespace NUnitTestProject
 {
-    public class RpcClientTest
+    public class RpcClientTest : UnitTestConfig
     {
         private IConfiguration _configuration;
         private RpcClient _rpcClient;
@@ -49,14 +49,5 @@ namespace NUnitTestProject
             string response = _rpcClient.Call("/inval=");
             Assert.IsTrue(response.ToUpper().Contains("COMMAND NOT RECOGNIZED"));
         }
-
-        public IConfigurationRoot BuildConfiguration(string testDirectory)
-        {
-            return new ConfigurationBuilder()
-                .SetBasePath(testDirectory)
-                .AddJsonFile("appsettings.json", optional: true)
-                .Build();
-        }
-
     }
 }

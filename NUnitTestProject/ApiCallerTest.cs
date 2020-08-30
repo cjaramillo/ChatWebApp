@@ -7,13 +7,12 @@ using System.Text;
 
 namespace NUnitTestProject
 {
-    class ApiCallerTest
+    class ApiCallerTest : UnitTestConfig
     {
-        private IConfiguration _configuration;
         private ApiCaller _apiCaller;
 
-        [SetUp]
-        public void Setup()
+        [OneTimeSetUp]
+        public override void Setup()
         {
             _configuration = BuildConfiguration(TestContext.CurrentContext.TestDirectory);
             _apiCaller = new ApiCaller(_configuration);
@@ -45,14 +44,5 @@ namespace NUnitTestProject
                 Assert.Fail();
             Assert.Pass();
         }
-
-        public IConfigurationRoot BuildConfiguration(string testDirectory)
-        {
-            return new ConfigurationBuilder()
-                .SetBasePath(testDirectory)
-                .AddJsonFile("appsettings.json", optional: true)
-                .Build();
-        }
-
     }
 }
