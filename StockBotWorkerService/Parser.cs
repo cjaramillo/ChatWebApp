@@ -24,8 +24,11 @@ namespace StockBotWorkerService
             if (string.IsNullOrEmpty(message))
                 return myDict;
             string[] lines = message.Split("\n");
-            if (lines.Length < 2)
+            if (lines.Length < 2) 
+            {
+                myDict.Add("Message", message);
                 return myDict;
+            }
             lines[0] = lines[0].Trim();
             lines[1] = lines[1].Trim();
             string[] fields = lines[0].Split(",");

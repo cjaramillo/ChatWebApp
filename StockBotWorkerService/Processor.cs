@@ -41,6 +41,10 @@ namespace StockBotWorkerService
                         else
                             response = $"{parsedResponse["Symbol"]} quote is ${parsedResponse["Close"]} per share";
                     }
+                    else if (parsedResponse.ContainsKey("Message")) 
+                    {
+                        response = parsedResponse["Message"];
+                    }
                     else
                     {
                         response = "Stock quote API response could not be recognized";

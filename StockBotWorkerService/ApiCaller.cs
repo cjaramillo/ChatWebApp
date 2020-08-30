@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,9 @@ namespace StockBotWorkerService
         public ApiCaller(IConfiguration configuration)
         {
             _configuration = configuration;
+            int secondsTimeout = 30;
+            int.TryParse(_configuration["TimeoutSecondsApiStock"] ?? "30", out secondsTimeout);
+            _client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
         }
 
         public string Call(string stockCode)
@@ -26,10 +30,9 @@ namespace StockBotWorkerService
                 urlApi = urlApi.Replace("{{StockCode}}", stockCode);
                 content = _client.GetStringAsync(urlApi).Result;
             }
-            catch (HttpRequestException e)
+            catch (Exception e) 
             {
-                Console.WriteLine("\nException Caught!");
-                Console.WriteLine("Message :{0} ", e.Message);
+                content = e.Message;
             }
             return content;
         }
