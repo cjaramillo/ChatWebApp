@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using RPCComunicator;
 
 namespace StockBotWorkerService
 {
@@ -17,15 +16,13 @@ namespace StockBotWorkerService
     {
         private readonly ILogger<Worker> _logger;
         private readonly IConfiguration _configuration;
-        private ApiCaller _invoker;
-        private Parser _parser;
+        private Processor _processor;
 
         public Worker(ILogger<Worker> logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
-            _invoker = new ApiCaller(configuration); 
-            _parser = new Parser(configuration);
+            _processor = new Processor(_configuration);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -50,34 +47,8 @@ namespace StockBotWorkerService
                 replyProps.CorrelationId = props.CorrelationId;
                 try
                 {
-                    string[] commandSplitted;
                     var message = Encoding.UTF8.GetString(body);
-                    if (message.StartsWith("/stock="))
-                    {
-                        commandSplitted = message.Split("/stock=");
-                        string stockCode = commandSplitted[1];
-                        if (string.IsNullOrEmpty(stockCode))
-                        {
-                            response = "Stock code is required.";
-                        }
-                        else 
-                        {
-                            string apiResponse = _invoker.Call(commandSplitted[1]);
-                            var parsedResponse = _parser.ParseContent(apiResponse);
-                            if (parsedResponse.ContainsKey("Symbol") && parsedResponse.ContainsKey("Close"))
-                            {
-                                response = $"{parsedResponse["Symbol"]} quote is ${parsedResponse["Close"]} per share";
-                            }
-                            else
-                            {
-                                response = "Stock quote API response could not be recognized";
-                            }   
-                        }
-                    }
-                    else
-                    {
-                        response = "Command not recognized";
-                    }
+                    response = _processor.ProcessMessage(message);
                 }
                 catch (Exception e)
                 {
