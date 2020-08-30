@@ -14,7 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", "{5BFFA6D1-EE9E-419F-91EA-CCB17194B985}"
 	ProjectSection(SolutionItems) = preProject
 		Installers\ChatWebApp-Installer.zip = Installers\ChatWebApp-Installer.zip
-		Installers\StockBotWorkerService.zip = Installers\StockBotWorkerService.zip
+		Installers\StockBotWorkerService-Installer.exe = Installers\StockBotWorkerService-Installer.exe
+		Installers\StockBotWorkerService-InstallerScript.iss = Installers\StockBotWorkerService-InstallerScript.iss
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{814BDF2F-EDC3-41CD-99F9-0BB0AE945154}"
