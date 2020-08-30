@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatWebApp", "ChatWebApp\ChatWebApp.csproj", "{A62277FA-E24D-439A-8977-42FF30AC3ED4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatWebApp", "ChatWebApp\ChatWebApp.csproj", "{A62277FA-E24D-439A-8977-42FF30AC3ED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockBotWorkerService", "StockBotWorkerService\StockBotWorkerService.csproj", "{1FEF0952-B1C2-4EE5-A8EB-F4EC482473EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StockBotWorkerService", "StockBotWorkerService\StockBotWorkerService.csproj", "{1FEF0952-B1C2-4EE5-A8EB-F4EC482473EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPCComunicator", "RPCComunicator\RPCComunicator.csproj", "{A749E1FB-7BA8-4EC3-9039-A62587B5CFFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPCComunicator", "RPCComunicator\RPCComunicator.csproj", "{A749E1FB-7BA8-4EC3-9039-A62587B5CFFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestProject", "NUnitTestProject\NUnitTestProject.csproj", "{3292BA4E-5D59-4E72-8C9A-FCBE865DD1EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestProject", "NUnitTestProject\NUnitTestProject.csproj", "{3292BA4E-5D59-4E72-8C9A-FCBE865DD1EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Installers", "Installers", "{5BFFA6D1-EE9E-419F-91EA-CCB17194B985}"
+	ProjectSection(SolutionItems) = preProject
+		Installers\ChatWebApp-Installer.zip = Installers\ChatWebApp-Installer.zip
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
