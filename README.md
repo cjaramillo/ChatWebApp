@@ -66,15 +66,7 @@ update-database
 ```
 
 ## Usage
-There are 2 users pre-built in the database, you can use those, or you can create new.
-The credentials are:
-```bash
-User: loco1@gmail.com
-Pass: Clave123!
-
-User: loco2@gmail.com
-Pass: Clave123!
-```
+You can create new users, enable and use in the app
 
 
 ## Contributing
