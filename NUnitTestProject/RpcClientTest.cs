@@ -12,11 +12,10 @@ namespace NUnitTestProject
 {
     public class RpcClientTest : UnitTestConfig
     {
-        private IConfiguration _configuration;
         private RpcClient _rpcClient;
 
         [OneTimeSetUp]
-        public void Setup()
+        public override void Setup()
         {
             _configuration = BuildConfiguration(TestContext.CurrentContext.TestDirectory);
             _rpcClient = new RpcClient(_configuration);
@@ -29,11 +28,29 @@ namespace NUnitTestProject
         }
 
         [Test]
-        public void RpcCallOnline()
+        public void RpcCallWithOkStockCodes()
         {
             string response = _rpcClient.Call("/stock=aapl.us");
             Assert.IsTrue(response.ToUpper().Contains("AAPL.US"));
             Assert.IsTrue(response.ToUpper().EndsWith("PER SHARE"));
+
+            response = _rpcClient.Call("/stock=googl.us");
+            Assert.IsTrue(response.ToUpper().Contains("GOOGL.US"));
+            Assert.IsTrue(response.ToUpper().EndsWith("PER SHARE"));
+
+            response = _rpcClient.Call("/stock=amzn.us");
+            Assert.IsTrue(response.ToUpper().Contains("AMZN.US"));
+            Assert.IsTrue(response.ToUpper().EndsWith("PER SHARE"));
+        }
+
+        [Test]
+        public void RpcCallWithNonExistentStockCodes()
+        {
+            string response = _rpcClient.Call("/stock=notvalid.us");
+            Assert.AreEqual("NO DATA AVAILABLE FOR NOTVALID.US", response.ToUpper());
+            
+            response = _rpcClient.Call("/stock=unexistent.us");
+            Assert.AreEqual("NO DATA AVAILABLE FOR UNEXISTENT.US", response.ToUpper());
         }
 
         [Test]
