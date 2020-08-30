@@ -11,13 +11,9 @@ namespace StockBotWorkerService
     public class ApiCaller
     {
         private readonly IConfiguration _configuration;
-        static readonly HttpClient _client = new HttpClient();
         public ApiCaller(IConfiguration configuration)
         {
             _configuration = configuration;
-            int secondsTimeout = 30;
-            int.TryParse(_configuration["TimeoutSecondsApiStock"] ?? "30", out secondsTimeout);
-            _client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
         }
 
         public string Call(string stockCode)
@@ -28,7 +24,11 @@ namespace StockBotWorkerService
                 var urlApi = _configuration["UrlApiStock"];
                 // No need to use templates engine like Handlebars, it's just one field to replace.
                 urlApi = urlApi.Replace("{{StockCode}}", stockCode);
-                content = _client.GetStringAsync(urlApi).Result;
+                int secondsTimeout = 30;
+                int.TryParse(_configuration["TimeoutSecondsApiStock"] ?? "30", out secondsTimeout);
+                HttpClient httpClient = new HttpClient();
+                httpClient.Timeout = TimeSpan.FromSeconds(secondsTimeout);
+                content = httpClient.GetStringAsync(urlApi).Result;
             }
             catch (Exception e) 
             {
